@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server";
 
+import { getSearchParamsValue } from "@/app/_utils/getSearchParamsValue";
+import { SEARCH_PARAMS_KEY } from "@/app/_constant/searchParamsKey";
+
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const characterName = searchParams.get("character_name");
+  const characterName = getSearchParamsValue(
+    request,
+    SEARCH_PARAMS_KEY.character_name,
+  );
 
   try {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY as string;
