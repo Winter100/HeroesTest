@@ -1,8 +1,8 @@
 "use client";
 
+import Row from "../../layout/Row";
 import { useCharacterStore } from "@/app/_store/characterStore";
 import { useTitleStore } from "@/app/_store/titleStore";
-import Row from "../../common/Row";
 
 const AbilityTitleList = () => {
   const { titleList } = useTitleStore();
