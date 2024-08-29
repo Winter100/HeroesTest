@@ -1,4 +1,4 @@
-import { LOCALSTORAGE_KEY } from "../_components/_constant/localstorage";
+import { LOCALSTORAGE_KEY } from "../_constant/localstorage";
 import { MergedCharacter } from "../_type/type";
 
 interface OcidData {
