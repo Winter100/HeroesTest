@@ -1,5 +1,6 @@
 import Button from "../common/Button";
-import Column from "../common/Column";
+import Column from "../layout/Column";
+
 import CharacterInfoBox from "./components/CharacterInfoBox";
 import StatusBox from "./components/StatusBox";
 

@@ -1,5 +1,5 @@
+import Row from "../../layout/Row";
 import { MergedCharacter } from "@/app/_type/type";
-import Row from "../../common/Row";
 
 interface AbilityItemProps {
   userData: MergedCharacter;

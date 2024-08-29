@@ -1,6 +1,6 @@
 "use client";
 
-import Row from "../../common/Row";
+import Row from "../../layout/Row";
 import AbilityItem from "./AbilityItem";
 import { useCharacterStore } from "@/app/_store/characterStore";
 
