@@ -16,22 +16,19 @@ const selectedStats = [
 ];
 
 const AbilityItem = ({ userData: { basic, stat } }: AbilityItemProps) => {
-  const sortedStats = selectedStats.map((id) =>
-    stat.find((stat) => stat.stat_id === id),
+  const sortedStats = selectedStats?.map((id) =>
+    stat?.find((stat) => stat?.stat_id === id),
   );
 
   return (
-    <Row
-      draggable
-      className="grid h-full w-full cursor-pointer grid-cols-12 items-center hover:text-blue-300"
-    >
+    <Row className="grid h-full w-full cursor-pointer grid-cols-12 items-center hover:text-blue-300">
       {Object.entries(basic).map(([key, value]) => (
         <div className="flex items-center justify-center" key={key}>
           {value}
         </div>
       ))}
 
-      {sortedStats.map((stats) => (
+      {sortedStats?.map((stats) => (
         <div className="flex items-center justify-center" key={stats?.stat_id}>
           {stats?.stat_value}
         </div>

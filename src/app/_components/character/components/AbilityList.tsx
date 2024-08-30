@@ -13,9 +13,9 @@ const AbilityList = () => {
       <ul className="grid w-full grid-rows-8 gap-[3px]">
         {characters.map((info) => (
           <li
-            key={info.basic.name}
+            key={info?.basic?.name}
             onClick={() => addSelectedCharacter(info)}
-            className={`flex h-full w-full items-center justify-center rounded-lg bg-zinc-900 ${selectedCharacter?.basic?.name === info.basic.name ? "border border-blue-300 text-blue-300" : ""}`}
+            className={`flex h-full w-full items-center justify-center rounded-lg bg-zinc-900 ${selectedCharacter?.basic?.name === info?.basic?.name ? "border border-blue-300 text-blue-300" : ""}`}
           >
             <AbilityItem userData={info} />
           </li>
