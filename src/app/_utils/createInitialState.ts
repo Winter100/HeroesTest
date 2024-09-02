@@ -1,19 +1,25 @@
-import { LOCALSTORAGE_KEY } from "../_constant/localstorage";
 import { statsKeyWord } from "../_constant/stats";
 import { CharacterStat, MergedCharacter } from "../_type/type";
-import { getLocalStorageItems } from "./localStorage";
+import {
+  getWaitingRoomToLocalStorage,
+  removeWatingRoomCharactersInfo,
+} from "./localStorage";
 
-export const createInitialCharacterState = () => {
+export const createInitialCharacterState = (isReset?: boolean) => {
   const stat: CharacterStat[] = Object.entries(statsKeyWord).map(([key]) => {
     return { stat_id: key, stat_value: "" };
   });
 
-  const temp = getLocalStorageItems(
-    LOCALSTORAGE_KEY.characterInfoList,
-  ) as MergedCharacter[];
+  let characters = [];
 
+  if (isReset) {
+    characters = [] as MergedCharacter[];
+    removeWatingRoomCharactersInfo();
+  } else {
+    characters = getWaitingRoomToLocalStorage();
+  }
   return {
-    characters: temp.slice(0, 8) || ([] as MergedCharacter[]),
+    characters,
     selectedCharacter: {
       name: "",
       basic: {

@@ -1,4 +1,4 @@
-import { LOCALSTORAGE_KEY } from "../_constant/localstorage";
+import { LOCALSTORAGE_KEY } from "./../_constant/localstorage";
 import { MergedCharacter } from "../_type/type";
 
 interface OcidData {
@@ -7,51 +7,55 @@ interface OcidData {
 }
 
 export const getLocalStorageItems = <T>(key: string): T | null => {
-  const storageItem = localStorage.getItem(key);
+  if (typeof window !== "undefined") {
+    const storageItem = localStorage.getItem(key);
 
-  if (!storageItem) return null;
+    if (!storageItem) return null;
 
-  try {
-    return JSON.parse(storageItem) as T;
-  } catch (e) {
-    return null;
+    try {
+      return JSON.parse(storageItem) as T;
+    } catch (e) {
+      return null;
+    }
   }
+
+  return null;
+};
+
+export const getWaitingRoomToLocalStorage = (): MergedCharacter[] => {
+  return getLocalStorageItems(LOCALSTORAGE_KEY.waiting) ?? [];
 };
 
 export const setLocalStorageItems = <T extends { name: string }>(
   key: string,
   data: T,
 ) => {
-  const storageItemList = getLocalStorageItems<T[]>(key);
+  const existingItems = getLocalStorageItems<T[]>(key) ?? [];
 
-  const updatedItemList = storageItemList ? [...storageItemList] : [];
+  const updatedItems = existingItems.map((item) =>
+    item.name === data.name ? data : item,
+  );
 
-  const index = updatedItemList.findIndex((item) => item.name === data.name);
-
-  if (index !== -1) {
-    updatedItemList[index] = data;
-  } else {
-    updatedItemList.push(data);
+  if (!updatedItems.some((item) => item.name === data.name)) {
+    updatedItems.push(data);
   }
 
-  localStorage.setItem(key, JSON.stringify(updatedItemList));
+  localStorage.setItem(key, JSON.stringify(updatedItems));
 };
 
 /**
  * 주어진 이름으로 로컬스토리지에서 ocid를 찾습니다.
  *
  * @param name - 검색할 캐릭터의 이름
- * @returns 해당 이름을 가진 아이템이 존재하면 ocid를 반환하고, 그렇지 않으면 `null`을 반환합니다.
+ * @returns 해당 이름을 가진 아이템이 존재하면 ocid를 반환하고, 그렇지 않으면 null을 반환합니다.
  *
  */
 export const findOcidByName = (name: string) => {
-  const ocidList = getLocalStorageItems<OcidData[]>(LOCALSTORAGE_KEY.ocidList);
-
-  if (!ocidList) return null;
-
-  const index = ocidList && ocidList.findIndex((item) => item.name === name);
-
-  return index !== -1 ? ocidList[index].ocid : null;
+  return (
+    getLocalStorageItems<OcidData[]>(LOCALSTORAGE_KEY.ocidList)?.find(
+      (item) => item.name === name,
+    )?.ocid || null
+  );
 };
 
 /**
@@ -72,8 +76,12 @@ export const setOcidListToLocalStorage = (
   return ocid;
 };
 
-export const setCharacterInfoToLocalStorage = (userData: MergedCharacter) => {
-  setLocalStorageItems(LOCALSTORAGE_KEY.characterInfoList, userData);
+export const setWaitingRoomCharactersInfo = (userData: MergedCharacter) => {
+  setLocalStorageItems(LOCALSTORAGE_KEY.waiting, userData);
+};
 
-  return;
+export const removeWatingRoomCharactersInfo = () => {
+  if (typeof window !== "undefined") {
+    localStorage.removeItem(LOCALSTORAGE_KEY.waiting);
+  }
 };

@@ -9,6 +9,9 @@ import Button from "../common/Button";
 
 import { useCharacter } from "@/app/_hooks/useCharacter";
 import Loading from "../common/Loading";
+import { getLocalStorageItems } from "@/app/_utils/localStorage";
+import { LOCALSTORAGE_KEY } from "@/app/_constant/localstorage";
+import { MergedCharacter } from "@/app/_type/type";
 
 const UserSearch = () => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -16,7 +19,12 @@ const UserSearch = () => {
 
   const onClickHandler = async (e: FormEvent) => {
     e.preventDefault();
-
+    const charactersToLocalstorage =
+      getLocalStorageItems<MergedCharacter[]>(LOCALSTORAGE_KEY.waiting) ?? [];
+    if (!charactersToLocalstorage || charactersToLocalstorage.length >= 8) {
+      toast.error("캐릭터는 최대 8명까지 등록 가능합니다.");
+      return;
+    }
     if (inputRef.current) {
       const cleanedCharacterName = inputRef.current.value.replace(/\s/g, "");
 

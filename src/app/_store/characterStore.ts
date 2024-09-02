@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 import { createInitialCharacterState } from "../_utils/createInitialState";
-import { MergedCharacter } from "../_type/type";
+import { MergedCharacter } from "./../_type/type";
 import { sortCharacters } from "../_utils/sortCharacters";
 
 interface CharacterStore {
@@ -21,7 +21,7 @@ export const useCharacterStore = create<CharacterStore>((set) => {
   return {
     ...initialState,
 
-    resetCharacters: () => set(createInitialCharacterState),
+    resetCharacters: () => set(() => createInitialCharacterState(true)),
 
     addCharacter: (character: MergedCharacter) =>
       set((state) => ({
