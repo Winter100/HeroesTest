@@ -2,8 +2,7 @@ import Section from "@/app/_components/layout/Section";
 import Column from "@/app/_components/layout/Column";
 import Row from "@/app/_components/layout/Row";
 import UserSearch from "@/app/_components/character/UserSearch";
-import AbilityTitleList from "@/app/_components/character/components/AbilityTitleList";
-import AbilityList from "@/app/_components/character/components/AbilityList";
+import AbilityRankList from "@/app/_components/character/AbilityRankList";
 
 const CharacterInfoPanel = () => {
   return (
@@ -12,8 +11,9 @@ const CharacterInfoPanel = () => {
         <Row className="flex items-center justify-center">
           <UserSearch />
         </Row>
-        <AbilityTitleList />
-        <AbilityList />
+        <Column className="h-full">
+          <AbilityRankList />
+        </Column>
       </Column>
     </Section>
   );
