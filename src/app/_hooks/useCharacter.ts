@@ -8,13 +8,16 @@ import { getGuild } from "../_utils/fetch/getGuild";
 
 import { translateAndUnifyStats } from "../_utils/translateAndUnifyStats";
 import { mergeCharacterData } from "../_utils/mergeCharacterData";
-import { setCharacterInfoToLocalStorage } from "../_utils/localStorage";
+import { setWaitingRoomCharactersInfo } from "../_utils/localStorage";
 import { useCharacterStore } from "../_store/characterStore";
 import { mergeAtk } from "../_utils/mergeAtk";
 
 export const useCharacter = () => {
   const [loading, setLoading] = useState(false);
-  const { addCharacter, addSelectedCharacter } = useCharacterStore();
+  const addCharacter = useCharacterStore((state) => state.addCharacter);
+  const addSelectedCharacter = useCharacterStore(
+    (state) => state.addSelectedCharacter,
+  );
 
   const handleCharacterInfo = useCallback(
     async (characterName: string) => {
@@ -37,7 +40,7 @@ export const useCharacter = () => {
           translatedStats,
           guild,
         );
-        setCharacterInfoToLocalStorage(mergedChrarcterData);
+        setWaitingRoomCharactersInfo(mergedChrarcterData);
         addCharacter(mergedChrarcterData);
         addSelectedCharacter(mergedChrarcterData);
       } catch (e) {

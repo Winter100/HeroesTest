@@ -18,7 +18,6 @@ export const useTitleStore = create<TitleStore>((set) => ({
     "공격속도",
     "추가피해",
     "해제",
-    "메뉴",
   ],
   setTitleList: (titleValue: string[]) =>
     set(() => {

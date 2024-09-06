@@ -8,15 +8,19 @@ import Input from "../common/Input";
 import Button from "../common/Button";
 
 import { useCharacter } from "@/app/_hooks/useCharacter";
+import { useCharacterStore } from "@/app/_store/characterStore";
 import Loading from "../common/Loading";
 
 const UserSearch = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { handleCharacterInfo, loading } = useCharacter();
-
+  const characters = useCharacterStore((state) => state.characters);
   const onClickHandler = async (e: FormEvent) => {
     e.preventDefault();
-
+    if (!characters || characters.length >= 8) {
+      toast.error("캐릭터는 최대 8명까지 등록 가능합니다.");
+      return;
+    }
     if (inputRef.current) {
       const cleanedCharacterName = inputRef.current.value.replace(/\s/g, "");
 
@@ -33,7 +37,7 @@ const UserSearch = () => {
   };
 
   return (
-    <Row className="justify-center text-black">
+    <Row className="justify-center gap-1 text-black">
       <form className="flex gap-1">
         <Input
           ref={inputRef}

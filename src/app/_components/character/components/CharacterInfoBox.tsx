@@ -16,10 +16,12 @@ const CharacterInfoBox = ({
 
   return (
     <div className={`grid grid-cols-2 gap-4 ${className}`} {...props}>
-      <div className="border-gray-30 rounded-lg border"></div>
+      <div className="border-gray-30 rounded-lg border">
+        {/** 캐릭터 이미지 */}
+      </div>
       <div className="flex h-full flex-col justify-center">
         {selectedCharacter &&
-          Object?.entries(selectedCharacter.basic).map(([key, value]) => (
+          Object?.entries(selectedCharacter?.basic).map(([key, value]) => (
             <AbilityItem
               className="flex-1"
               key={key}
