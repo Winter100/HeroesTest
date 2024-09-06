@@ -1,6 +1,6 @@
-import { statTranslations } from "../_constant/stats";
+import { statsKeyWord } from "../_constant/stats";
 
-export type StatType = keyof typeof statTranslations;
+export type StatType = keyof typeof statsKeyWord;
 
 // 추후 같은 기능이지만 다른 코드로 리팩토링하기
 export const convertStatToKor = (stat: string) => {
