@@ -14,7 +14,10 @@ import { mergeAtk } from "../_utils/mergeAtk";
 
 export const useCharacter = () => {
   const [loading, setLoading] = useState(false);
-  const { addCharacter, addSelectedCharacter } = useCharacterStore();
+  const addCharacter = useCharacterStore((state) => state.addCharacter);
+  const addSelectedCharacter = useCharacterStore(
+    (state) => state.addSelectedCharacter,
+  );
 
   const handleCharacterInfo = useCallback(
     async (characterName: string) => {

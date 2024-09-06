@@ -2,7 +2,7 @@
 import { useCharacterStore } from "@/app/_store/characterStore";
 import { useState } from "react";
 
-function Dropdown() {
+const Dropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { resetCharacters } = useCharacterStore();
 
@@ -14,6 +14,8 @@ function Dropdown() {
     resetCharacters();
     setIsOpen(false);
   };
+
+  const refresh = () => {};
 
   return (
     <div className="relative h-full items-center justify-center text-left hover:text-blue-300">
@@ -38,14 +40,17 @@ function Dropdown() {
             >
               모두 비우기
             </button>
-            <button className="block w-full p-2 text-center text-gray-700 hover:bg-gray-100">
-              Support
+            <button
+              className="block w-full p-2 text-center text-gray-700 hover:bg-gray-100"
+              onClick={refresh}
+            >
+              새로고침
             </button>
           </div>
         </div>
       )}
     </div>
   );
-}
+};
 
 export default Dropdown;
