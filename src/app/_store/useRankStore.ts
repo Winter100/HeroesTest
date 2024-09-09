@@ -1,34 +1,52 @@
 import { create } from "zustand";
-import { MergedCharacter } from "../_type/type";
+import { MergedCharacter } from "../_type/characterType";
 
 type State = {
-  titleList: string[];
-  characters: MergedCharacter[];
+  rankTitleList: { stat_name: string; isView: boolean }[];
 };
 
 type Action = {
-  setTitleList: (title: string[]) => void;
+  toggleView: (title: string) => void;
+  setDropTitleList: (start: number, end: number) => void;
 };
 
+// 로컬스토리지로 아래 내역 저장하기
 export const useRankStore = create<State & Action>((set) => {
   return {
-    titleList: [
-      "이름",
-      "직업",
-      "길드",
-      "레벨",
-      "공격력",
-      "방어력",
-      "크리티컬",
-      "밸런스",
-      "공격속도",
-      "추가피해",
-      "해제",
+    rankTitleList: [
+      { stat_name: "이름", isView: true },
+      { stat_name: "직업", isView: true },
+      { stat_name: "공격력", isView: true },
+      { stat_name: "해제", isView: true },
+      { stat_name: "추가피해", isView: true },
+      { stat_name: "대항력", isView: true },
+      { stat_name: "크리티컬", isView: true },
+      { stat_name: "밸런스", isView: true },
+      // { stat_name: "길드", isView: false },
+      // { stat_name: "레벨", isView: false },
+      // { stat_name: "방어력", isView: false },
+      { stat_name: "공격속도", isView: false },
     ],
-    characters: [],
-    setTitleList: (titleValue: string[]) =>
-      set(() => {
-        return { titleList: [...titleValue] };
+    toggleView: (title: string) =>
+      set((state) => {
+        const updatedRankTitleList = state.rankTitleList
+          .map(
+            (item) =>
+              item.stat_name === title
+                ? { ...item, isView: !item.isView }
+                : item,
+            // item.stat_name === title ? { ...item, isView: !item.isView } : item,
+          )
+          .sort((a, b) => (a.isView === b.isView ? 0 : a.isView ? -1 : 1));
+        return { rankTitleList: updatedRankTitleList };
+      }),
+    setDropTitleList: (start: number, end: number) =>
+      set((state) => {
+        const updatedRankTitleList = [...state.rankTitleList];
+        const [movedItem] = updatedRankTitleList.splice(start, 1);
+        updatedRankTitleList.splice(end, 0, movedItem);
+
+        return { rankTitleList: updatedRankTitleList };
       }),
   };
 });

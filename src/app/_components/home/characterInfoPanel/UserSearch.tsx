@@ -3,18 +3,19 @@
 import { FormEvent, useRef } from "react";
 import { toast } from "react-toastify";
 
-import Row from "../layout/Row";
-import Input from "../common/Input";
-import Button from "../common/Button";
+import Row from "../../layout/Row";
+import Input from "../../common/Input";
+import Loading from "../../common/Loading";
+import Button from "../../common/Button";
 
-import { useCharacter } from "@/app/_hooks/useCharacter";
 import { useCharacterStore } from "@/app/_store/characterStore";
-import Loading from "../common/Loading";
+import { useCharacter } from "@/app/_hooks/useCharacter/useCharacter";
 
 const UserSearch = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { handleCharacterInfo, loading } = useCharacter();
   const characters = useCharacterStore((state) => state.characters);
+
   const onClickHandler = async (e: FormEvent) => {
     e.preventDefault();
     if (!characters || characters.length >= 8) {
