@@ -5,9 +5,14 @@ import { useCharacterStore } from "@/app/_store/characterStore";
 import { useRankStore } from "@/app/_store/useRankStore";
 import { filterCharacters } from "./utils/filterCharacters";
 import { useDrag } from "@/app/_hooks/useDrag/useDrag";
+import { useEffect } from "react";
+import { getLocalStorageItems } from "@/app/_utils/localStorage";
+import { LOCALSTORAGE_KEY } from "@/app/_constant/localstorage";
+import { MergedCharacter } from "@/app/_type/characterType";
 
 const AbilityRankTbody = () => {
   const characters = useCharacterStore((state) => state.characters);
+  const addCharacter = useCharacterStore((state) => state.addCharacter);
   const selectedCharacter = useCharacterStore(
     (state) => state.selectedCharacter,
   );
@@ -20,6 +25,12 @@ const AbilityRankTbody = () => {
 
   const { dragEnd, dragEnter, dragOver, dragStart } =
     useDrag(setDropCharacterist);
+
+  useEffect(() => {
+    const waitinList =
+      getLocalStorageItems<MergedCharacter[]>(LOCALSTORAGE_KEY.waiting) ?? [];
+    waitinList.slice(0, 8).map((c) => addCharacter(c));
+  }, [addCharacter]);
 
   return (
     <tbody className="grid h-full w-full grid-rows-8 rounded-lg bg-zinc-800">

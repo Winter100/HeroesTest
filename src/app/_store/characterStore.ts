@@ -1,6 +1,11 @@
 import { create } from "zustand";
 import { MergedCharacter } from "../_type/characterType";
 import { c1 } from "../_constant/qwer";
+import {
+  getLocalStorageItems,
+  removeWatingRoomCharactersInfo,
+} from "../_utils/localStorage";
+import { LOCALSTORAGE_KEY } from "../_constant/localstorage";
 
 type State = {
   characters: MergedCharacter[];
@@ -16,7 +21,7 @@ type Action = {
 
 export const useCharacterStore = create<State & Action>((set) => {
   return {
-    characters: c1 as MergedCharacter[],
+    characters: [],
     selectedCharacter: null,
     addCharacter: (characterData: MergedCharacter) =>
       set((state) => ({
@@ -46,7 +51,10 @@ export const useCharacterStore = create<State & Action>((set) => {
     },
 
     reset: () => {
-      set({ characters: [] as MergedCharacter[] });
+      set(() => {
+        removeWatingRoomCharactersInfo();
+        return { characters: [] as MergedCharacter[] };
+      });
     },
   };
 });
