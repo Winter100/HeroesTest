@@ -1,34 +1,54 @@
 import { create } from "zustand";
-import { MergedCharacter } from "../_type/type";
+import { setLocalStoreageRankTitle } from "../_utils/localStorage";
+import { TitleType } from "../_type/RankTitleListType";
+import { initialTitleList } from "../_constant/rankTitleList";
+import { toast } from "react-toastify";
 
 type State = {
-  titleList: string[];
-  characters: MergedCharacter[];
+  rankTitleList: { stat_name: string; isView: boolean }[];
 };
 
 type Action = {
-  setTitleList: (title: string[]) => void;
+  toggleView: (title: string) => void;
+  setInitialTitleList: (titleList: TitleType[]) => void;
+  setDropTitleList: (start: number, end: number) => void;
 };
 
 export const useRankStore = create<State & Action>((set) => {
   return {
-    titleList: [
-      "이름",
-      "직업",
-      "길드",
-      "레벨",
-      "공격력",
-      "방어력",
-      "크리티컬",
-      "밸런스",
-      "공격속도",
-      "추가피해",
-      "해제",
-    ],
-    characters: [],
-    setTitleList: (titleValue: string[]) =>
+    rankTitleList: [] as TitleType[],
+    toggleView: (title: string) =>
+      set((state) => {
+        if (title === "이름") {
+          toast.error("이름은 필수값 입니다.");
+          return { rankTitleList: state.rankTitleList };
+        }
+        const updatedRankTitleList = state.rankTitleList
+          .map((item) =>
+            item.stat_name === title ? { ...item, isView: !item.isView } : item,
+          )
+          .sort((a, b) => (a.isView === b.isView ? 0 : a.isView ? -1 : 1));
+        setLocalStoreageRankTitle("RankTitleList", updatedRankTitleList);
+
+        return { rankTitleList: updatedRankTitleList };
+      }),
+    setInitialTitleList: (titleList) => {
       set(() => {
-        return { titleList: [...titleValue] };
+        if (titleList.some((i) => i.isView === true)) {
+          return { rankTitleList: titleList };
+        } else {
+          return { rankTitleList: initialTitleList };
+        }
+      });
+    },
+    setDropTitleList: (start: number, end: number) =>
+      set((state) => {
+        const updatedRankTitleList = [...state.rankTitleList];
+        const [movedItem] = updatedRankTitleList.splice(start, 1);
+        updatedRankTitleList.splice(end, 0, movedItem);
+        setLocalStoreageRankTitle("RankTitleList", updatedRankTitleList);
+
+        return { rankTitleList: updatedRankTitleList };
       }),
   };
 });

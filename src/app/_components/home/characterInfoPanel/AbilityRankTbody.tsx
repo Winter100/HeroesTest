@@ -32,7 +32,7 @@ const AbilityRankTbody = () => {
           onDragEnd={dragEnd}
           onDragOver={dragOver}
           onDragEnter={() => dragEnter(i)}
-          className={`flex w-full grid-cols-9 items-center justify-center rounded-lg lg:grid ${c?.name?.length > 1 ? "border-b border-gray-400 hover:cursor-pointer hover:text-blue-300" : ""} ${selectedCharacter?.name === c.name ? "bg-zinc-700" : ""}`}
+          className={`flex w-full grid-cols-9 items-center justify-center rounded-lg lg:grid ${c?.name?.length > 1 ? "border-b border-gray-400 hover:cursor-pointer hover:bg-zinc-600" : ""} ${selectedCharacter?.name === c.name && selectedCharacter?.name !== null ? "text-blue-300" : ""}`}
         >
           {c?.info.map((i) => (
             <td
