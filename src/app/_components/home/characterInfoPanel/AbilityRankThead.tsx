@@ -21,7 +21,7 @@ const AbilityRankThead = () => {
                 draggable
                 onDragOver={dragOver}
                 onDragStart={(e) => dragStart(e, i)}
-                onDragEnter={(e) => dragEnter(e, i)}
+                onDragEnter={() => dragEnter(i)}
                 onDragEnd={dragEnd}
               >
                 <div className="relative h-full w-full">

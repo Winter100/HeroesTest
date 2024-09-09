@@ -1,51 +1,41 @@
 import { create } from "zustand";
+import { MergedCharacter } from "../_type/characterType";
+import { c1 } from "../_constant/qwer";
 
-import { createInitialCharacterState } from "../_utils/createInitialState";
-import { MergedCharacter } from "./../_type/type";
-import { sortCharacters } from "../_utils/sortCharacters";
-
-interface CharacterStore {
+type State = {
   characters: MergedCharacter[];
-  selectedCharacter: MergedCharacter;
-  ascending: boolean;
-  beforeSortValue: string;
-  resetCharacters: () => void;
+  selected: MergedCharacter | null;
+};
+
+type Action = {
   addCharacter: (character: MergedCharacter) => void;
-  addSelectedCharacter: (character: MergedCharacter) => void;
-  setAscending: (asc: boolean) => void;
-  sortCharacterList: (title: string) => void;
-}
+  setDropCharacterist: (start: number, end: number) => void;
+  reset: () => void;
+};
 
-export const useCharacterStore = create<CharacterStore>((set) => {
-  const initialState = createInitialCharacterState();
+export const useCharacterStore = create<State & Action>((set) => {
   return {
-    ...initialState,
-
-    resetCharacters: () => set(() => createInitialCharacterState(true)),
-
-    addCharacter: (character: MergedCharacter) =>
+    characters: c1 as MergedCharacter[],
+    selected: null,
+    addCharacter: (characterData: MergedCharacter) =>
       set((state) => ({
-        characters: state.characters.some((c) => c.name === character.name)
+        characters: state.characters.some((c) => c.name === characterData.name)
           ? state.characters.map((c) =>
-              c.name === character.name ? character : c,
+              c.name === characterData.name ? characterData : c,
             )
-          : [...state.characters, character],
+          : [...state.characters, characterData],
       })),
-
-    addSelectedCharacter: (character: MergedCharacter) =>
-      set({ selectedCharacter: character }),
-
-    setAscending: (asc: boolean) => set({ ascending: asc }),
-
-    sortCharacterList: (sortValue: string = "") =>
+    setDropCharacterist: (start: number, end: number) =>
       set((state) => {
-        const ascending =
-          state.beforeSortValue === sortValue ? !state.ascending : false;
-        return {
-          ascending,
-          beforeSortValue: sortValue,
-          characters: sortCharacters(sortValue, state.characters, ascending),
-        };
+        const updatedCharacterList = [...state.characters];
+        const [movedItem] = updatedCharacterList.splice(start, 1);
+        updatedCharacterList.splice(end, 0, movedItem);
+
+        return { characters: updatedCharacterList };
       }),
+
+    reset: () => {
+      set({ characters: [] as MergedCharacter[] });
+    },
   };
 });
