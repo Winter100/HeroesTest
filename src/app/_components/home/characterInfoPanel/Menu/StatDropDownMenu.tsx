@@ -14,7 +14,7 @@ const StatDropDownMenu = () => {
   const { dragEnd, dragEnter, dragOver, dragStart } = useDrag(setDropTitleList);
 
   return (
-    <div className="inline-block h-full w-24">
+    <div className="inline-block h-full w-28">
       <Button
         onClick={() => isView((pre) => !pre)}
         className="flex h-full w-full items-center justify-center"
@@ -27,6 +27,7 @@ const StatDropDownMenu = () => {
       >
         {rankTitleList?.map((t, i) => (
           <button
+            draggable={t.isView}
             draggable={t.isView}
             key={t.stat_name}
             onClick={() => toggleView(t.stat_name)}
