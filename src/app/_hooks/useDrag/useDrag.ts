@@ -9,14 +9,14 @@ export const useDrag = (setDropItem: (start: number, end: number) => void) => {
     e.dataTransfer.effectAllowed = "move";
   };
 
-  const dragEnter = (e: React.DragEvent, i: number) => {
+  const dragEnter = (i: number) => {
     dragEndItem.current = i;
   };
 
   const dragOver = (e: React.DragEvent) => {
     e.preventDefault();
   };
-  const dragEnd = (e: React.DragEvent) => {
+  const dragEnd = () => {
     if (dragStartItem.current !== null && dragEndItem.current !== null) {
       if (dragStartItem.current === dragEndItem.current) return;
       setDropItem(dragStartItem.current, dragEndItem.current);

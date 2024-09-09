@@ -48,7 +48,7 @@ const UserSearch = () => {
         <Button
           type="submit"
           disabled={loading}
-          className={`h-full w-14 text-xs hover:opacity-80 ${loading ? "opacity-80" : ""}`}
+          className={`h-full w-14 text-xs ${loading ? "opacity-80" : ""}`}
           onClick={onClickHandler}
         >
           {!loading ? "검색" : <Loading />}

@@ -1,4 +1,6 @@
+import { initialTitleList } from "../_constant/rankTitleList";
 import { MergedCharacter } from "../_type/characterType";
+import { TitleType } from "../_type/RankTitleListType";
 import { LOCALSTORAGE_KEY } from "./../_constant/localstorage";
 
 interface OcidData {
@@ -41,6 +43,19 @@ export const setLocalStorageItems = <T extends { name: string }>(
   }
 
   localStorage.setItem(key, JSON.stringify(updatedItems));
+};
+
+export const setLocalStoreageRankTitle = (
+  key: string,
+  item: { stat_name: string; isView: boolean }[],
+) => {
+  const updatedItems = [...item];
+
+  localStorage.setItem(key, JSON.stringify(updatedItems));
+};
+
+export const getLocalStorageRankTitle = () => {
+  return getLocalStorageItems<TitleType[]>("RankTitleList");
 };
 
 /**

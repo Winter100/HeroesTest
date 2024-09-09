@@ -6,6 +6,7 @@ import { Stat } from "@/app/_type/characterType";
  * @returns 공격력과 마법공격력중 더 높은 스텟을 공격력 값으로 합친 후 스텟 배열을 리턴합니다.
  */
 export const mergeAtk = (stats: { stat: Stat[] }) => {
+  console.log("테스트");
   const copyStats = [...stats.stat];
 
   const atkValue = copyStats.find(

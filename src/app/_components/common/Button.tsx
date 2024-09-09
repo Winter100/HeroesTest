@@ -1,11 +1,11 @@
-import { ComponentProps } from 'react';
+import { ComponentProps } from "react";
 
-interface ButtonProps extends ComponentProps<'button'> {}
+interface ButtonProps extends ComponentProps<"button"> {}
 
-const Button = ({ children, className = '', ...props }: ButtonProps) => {
+const Button = ({ children, className = "", ...props }: ButtonProps) => {
   return (
     <button
-      className={`bg-black text-white border-none rounded-lg ${className}`}
+      className={`rounded-lg border-none bg-black text-white hover:text-blue-300 ${className}`}
       {...props}
     >
       {children}
