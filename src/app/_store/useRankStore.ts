@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 
 type State = {
   rankTitleList: { stat_name: string; isView: boolean }[];
-  rankTitleList: { stat_name: string; isView: boolean }[];
 };
 
 type Action = {

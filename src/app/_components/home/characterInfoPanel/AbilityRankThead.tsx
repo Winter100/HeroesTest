@@ -13,7 +13,6 @@ const AbilityRankThead = () => {
   );
   const setDropTitleList = useRankStore((state) => state.setDropTitleList);
   const toggleView = useRankStore((state) => state.toggleView);
-  const toggleView = useRankStore((state) => state.toggleView);
   const { dragEnd, dragEnter, dragOver, dragStart } = useDrag(setDropTitleList);
 
   useEffect(() => {
@@ -28,7 +27,6 @@ const AbilityRankThead = () => {
           (t, i) =>
             t?.isView && (
               <th
-                className={`flex h-full w-full items-center justify-center rounded-lg hover:cursor-pointer`}
                 className={`flex h-full w-full items-center justify-center rounded-lg hover:cursor-pointer`}
                 key={t?.stat_name}
                 draggable

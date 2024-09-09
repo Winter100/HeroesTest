@@ -28,7 +28,6 @@ const StatDropDownMenu = () => {
         {rankTitleList?.map((t, i) => (
           <button
             draggable={t.isView}
-            draggable={t.isView}
             key={t.stat_name}
             onClick={() => toggleView(t.stat_name)}
             onDragStart={(e) => dragStart(e, i)}
