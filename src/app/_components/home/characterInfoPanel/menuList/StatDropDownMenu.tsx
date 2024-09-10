@@ -5,18 +5,23 @@ import { useRankStore } from "@/app/_store/useRankStore";
 import { useDrag } from "@/app/_hooks/useDrag/useDrag";
 import Button from "@/app/_components/common/Button";
 import BottomArrow from "@/app/_components/common/BottomArrow";
+import { useOutsideClick } from "@/app/_hooks/useOutsideClick/useOutsideClick";
 
 const StatDropDownMenu = () => {
-  const [view, isView] = useState(false);
+  const [view, setView] = useState(false);
   const rankTitleList = useRankStore((state) => state.rankTitleList);
   const toggleView = useRankStore((state) => state.toggleView);
   const setDropTitleList = useRankStore((state) => state.setDropTitleList);
   const { dragEnd, dragEnter, dragOver, dragStart } = useDrag(setDropTitleList);
 
+  const dropdownRef = useOutsideClick(() => {
+    setView(false);
+  });
+
   return (
-    <div className="inline-block h-full w-28">
+    <div className="inline-block h-full w-24" ref={dropdownRef}>
       <Button
-        onClick={() => isView((pre) => !pre)}
+        onClick={() => setView((pre) => !pre)}
         className="flex h-full w-full items-center justify-center"
       >
         <span>스텟 추가</span>
@@ -34,7 +39,7 @@ const StatDropDownMenu = () => {
             onDragOver={dragOver}
             onDragEnter={() => dragEnter(i)}
             onDragEnd={() => dragEnd()}
-            className={`h-8 hover:bg-zinc-700 ${t.isView === true ? "text-blue-300" : "text-red-300"}`}
+            className={`h-8 rounded-lg hover:bg-zinc-700 ${t.isView === true ? "text-blue-300" : "text-red-300"}`}
           >
             {t.stat_name}
           </button>
