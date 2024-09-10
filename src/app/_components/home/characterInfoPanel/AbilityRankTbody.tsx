@@ -39,7 +39,7 @@ const AbilityRankTbody = () => {
 
   return (
     <tbody className="grid h-full w-full grid-rows-8 rounded-lg bg-zinc-800">
-      {filteredCharacters.map((c, i) => (
+      {filteredCharacters?.map((c, i) => (
         <tr
           key={uuidv4()}
           onClick={() => selectedHandler(c.name)}
