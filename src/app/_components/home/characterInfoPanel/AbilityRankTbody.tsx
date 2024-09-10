@@ -50,7 +50,10 @@ const AbilityRankTbody = () => {
               className="flex h-full flex-1 items-center justify-center"
               key={i?.stat_name + i?.stat_value}
             >
-              {i?.stat_value}
+              <span>
+                {i?.stat_value}
+                <p className="text-center text-[10px] text-green-300">(+90)</p>
+              </span>
             </td>
           ))}
         </tr>

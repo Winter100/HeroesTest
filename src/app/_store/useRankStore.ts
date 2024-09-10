@@ -34,7 +34,7 @@ export const useRankStore = create<State & Action>((set) => {
       }),
     setInitialTitleList: (titleList) => {
       set(() => {
-        if (titleList.some((i) => i.isView === true)) {
+        if (titleList?.some((i) => i.isView === true)) {
           return { rankTitleList: titleList };
         } else {
           return { rankTitleList: initialTitleList };

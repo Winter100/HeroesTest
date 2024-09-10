@@ -8,7 +8,7 @@ export const filterCharacters = (
     .map((c) => {
       const filterdInfo = c?.info
         .filter((infoItem) => {
-          return selectedTitleList.some(
+          return selectedTitleList?.some(
             (selectedItem) =>
               selectedItem.stat_name.includes(infoItem.stat_name) &&
               selectedItem.isView === true,
