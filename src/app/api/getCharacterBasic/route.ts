@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 
 import { getSearchParamsValue } from "@/app/_utils/getSearchParamsValue";
 import { SEARCH_PARAMS_KEY } from "@/app/_constant/searchParamsKey";
-import { CharacterBasic } from "@/app/_type/type";
+import { nexonInstance } from "@/app/_services/nexonInstance";
+import { Basic } from "@/app/_type/characterType";
 
 export async function GET(request: Request) {
   const ocid = getSearchParamsValue(request, SEARCH_PARAMS_KEY.ocid);
@@ -12,18 +13,9 @@ export async function GET(request: Request) {
   }
 
   try {
-    const apiKey = process.env.NEXT_PUBLIC_API_KEY as string;
-    const response = await fetch(
-      `https://open.api.nexon.com/heroes/v1/character/basic?ocid=${ocid}`,
-      {
-        method: "GET",
-        headers: {
-          "x-nxopen-api-key": apiKey,
-        },
-      },
-    );
+    const response = await nexonInstance.get(`/character/basic?ocid=${ocid}`);
 
-    const data: CharacterBasic = await response.json();
+    const data: Basic = await response.data;
 
     return NextResponse.json(data);
   } catch (e) {}
