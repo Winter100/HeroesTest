@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { getSearchParamsValue } from "@/app/_utils/getSearchParamsValue";
 import { SEARCH_PARAMS_KEY } from "@/app/_constant/searchParamsKey";
+import { nexonInstance } from "@/app/_services/nexonInstance";
 
 export async function GET(request: Request) {
   const characterName = getSearchParamsValue(
@@ -9,26 +10,25 @@ export async function GET(request: Request) {
     SEARCH_PARAMS_KEY.character_name,
   );
 
+  if (!characterName) {
+    return NextResponse.json(
+      { error: "캐릭터 이름은 필수입니다." },
+      { status: 400 },
+    );
+  }
+
   try {
-    const apiKey = process.env.NEXT_PUBLIC_API_KEY as string;
-    const response = await fetch(
-      `https://open.api.nexon.com/heroes/v1/id?character_name=${characterName}`,
-      {
-        method: "GET",
-        headers: {
-          "x-nxopen-api-key": apiKey,
-        },
-      },
+    const response = await nexonInstance.get(
+      `/id?character_name=${characterName}`,
     );
 
-    const data = await response.json();
+    const data: string = await response.data;
 
-    if (!data.error) {
-      return NextResponse.json(data);
-    } else {
-      return NextResponse.json({ error: data.error }, { status: 400 });
-    }
-  } catch (e) {
-    console.error(e);
+    return NextResponse.json(data, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "API 요청 중 오류 발생" },
+      { status: 500 },
+    );
   }
 }
