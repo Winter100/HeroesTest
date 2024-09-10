@@ -48,7 +48,7 @@ const AbilityRankTbody = () => {
           onDragEnd={dragEnd}
           onDragOver={dragOver}
           onDragEnter={() => dragEnter(i)}
-          className={`flex w-full grid-cols-9 items-center justify-center rounded-lg lg:grid ${c?.name?.length > 1 ? "border-b border-gray-400 hover:cursor-pointer hover:bg-zinc-600" : ""} ${selectedCharacter?.name === c.name && selectedCharacter?.name !== null ? "text-blue-300" : ""}`}
+          className={`flex-cols flex w-full flex-1 rounded-lg ${c?.name?.length > 1 ? "border-b border-gray-400 hover:cursor-pointer hover:bg-zinc-600" : ""} ${selectedCharacter?.name === c.name && selectedCharacter?.name !== null ? "text-blue-300" : ""}`}
         >
           {c?.info.map((i) => (
             <td
