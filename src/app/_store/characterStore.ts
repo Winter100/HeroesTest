@@ -1,11 +1,6 @@
 import { create } from "zustand";
 import { MergedCharacter } from "../_type/characterType";
-import { c1 } from "../_constant/qwer";
-import {
-  getLocalStorageItems,
-  removeWatingRoomCharactersInfo,
-} from "../_utils/localStorage";
-import { LOCALSTORAGE_KEY } from "../_constant/localstorage";
+import { removeWatingRoomCharactersInfo } from "../_utils/localStorage";
 
 type State = {
   characters: MergedCharacter[];
