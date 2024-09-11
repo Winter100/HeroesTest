@@ -18,6 +18,7 @@ type Action = {
   setSeletRankTitle: (title: string | null) => void;
 };
 
+// 로컬스토리지로 아래 내역 저장하기
 export const useRankStore = create<State & Action>((set) => {
   return {
     rankTitleList: [],
