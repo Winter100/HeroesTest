@@ -1,14 +1,17 @@
 "use client";
 
+import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
+
 import { useCharacterStore } from "@/app/_store/characterStore";
 import { useRankStore } from "@/app/_store/useRankStore";
 import { filterCharacters } from "./utils/filterCharacters";
 import { useDrag } from "@/app/_hooks/useDrag/useDrag";
-import { useEffect } from "react";
 import { getLocalStorageItems } from "@/app/_utils/localStorage";
 import { LOCALSTORAGE_KEY } from "@/app/_constant/localstorage";
 import { MergedCharacter } from "@/app/_type/characterType";
+import { useRaidStore } from "@/app/_store/raidStore";
+import LimitStat from "./stat/LimitStat";
 
 const AbilityRankTbody = () => {
   const characters = useCharacterStore((state) => state.characters);
@@ -25,6 +28,8 @@ const AbilityRankTbody = () => {
 
   const { dragEnd, dragEnter, dragOver, dragStart } =
     useDrag(setDropCharacterist);
+
+  const selectedBoss = useRaidStore((state) => state.selectedBoss);
 
   useEffect(() => {
     const waitinList =
@@ -43,17 +48,23 @@ const AbilityRankTbody = () => {
           onDragEnd={dragEnd}
           onDragOver={dragOver}
           onDragEnter={() => dragEnter(i)}
-          className={`flex w-full grid-cols-9 items-center justify-center rounded-lg lg:grid ${c?.name?.length > 1 ? "border-b border-gray-400 hover:cursor-pointer hover:bg-zinc-600" : ""} ${selectedCharacter?.name === c.name && selectedCharacter?.name !== null ? "text-blue-300" : ""}`}
+          className={`flex w-full items-center justify-center rounded-lg ${c?.name?.length > 1 ? "border-b border-gray-400 hover:cursor-pointer hover:bg-zinc-600" : ""} ${selectedCharacter?.name === c.name && selectedCharacter?.name !== null ? "text-blue-300" : ""}`}
         >
           {c?.info.map((i) => (
             <td
               className="flex h-full flex-1 items-center justify-center"
               key={i?.stat_name + i?.stat_value}
             >
-              <span>
-                {i?.stat_value}
-                <p className="text-center text-[10px] text-green-300">(+90)</p>
-              </span>
+              <div className="flex flex-col items-center justify-center">
+                <span>{i?.stat_value}</span>
+                {selectedBoss && (
+                  <LimitStat
+                    characterName={c.name}
+                    selectedBoss={selectedBoss}
+                    {...i}
+                  />
+                )}
+              </div>
             </td>
           ))}
         </tr>

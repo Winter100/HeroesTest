@@ -7,7 +7,6 @@ import Row from "../../layout/Row";
 import Input from "../../common/Input";
 import Loading from "../../common/Loading";
 import Button from "../../common/Button";
-
 import { useCharacterStore } from "@/app/_store/characterStore";
 import { useCharacter } from "@/app/_hooks/useCharacter/useCharacter";
 
@@ -48,10 +47,10 @@ const UserSearch = () => {
         <Button
           type="submit"
           disabled={loading}
-          className={`h-full w-14 text-xs ${loading ? "opacity-80" : ""}`}
+          className={`h-full w-16 text-xs ${loading ? "opacity-80" : ""}`}
           onClick={onClickHandler}
         >
-          {!loading ? "검색" : <Loading />}
+          {!loading ? <span>검색</span> : <Loading />}
         </Button>
       </form>
     </Row>
