@@ -22,7 +22,7 @@ const AbilityRankThead = () => {
 
   return (
     <thead className="min-h-8 w-full items-center justify-center rounded-lg bg-zinc-800">
-      <tr className="relative flex h-full w-full grid-cols-9 lg:grid">
+      <tr className="relative flex h-full w-full items-center justify-center">
         {rankTitleList?.map(
           (t, i) =>
             t?.isView && (
