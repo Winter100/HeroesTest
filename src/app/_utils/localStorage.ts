@@ -91,7 +91,13 @@ export const setOcidListToLocalStorage = (
   return ocid;
 };
 
-export const setWaitingRoomCharactersInfo = (userData: MergedCharacter) => {
+export const setWaitingRoomCharactersInfo = (
+  userData: MergedCharacter | MergedCharacter[],
+) => {
+  localStorage.setItem(LOCALSTORAGE_KEY.waiting, JSON.stringify(userData));
+};
+
+export const addWaitingRoomCharacterInfo = (userData: MergedCharacter) => {
   setLocalStorageItems(LOCALSTORAGE_KEY.waiting, userData);
 };
 

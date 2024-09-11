@@ -7,7 +7,7 @@ export const filterCharacters = (
   const filterdData = characters
     .map((c) => {
       const filterdInfo = c?.info
-        .filter((infoItem) => {
+        ?.filter((infoItem) => {
           return selectedTitleList?.some(
             (selectedItem) =>
               selectedItem.stat_name.includes(infoItem.stat_name) &&
@@ -27,6 +27,5 @@ export const filterCharacters = (
       return [{ name: filterdInfo[0]?.stat_value, info: filterdInfo }];
     })
     .flat();
-
   return filterdData;
 };

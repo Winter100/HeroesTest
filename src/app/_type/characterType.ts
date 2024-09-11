@@ -34,18 +34,5 @@ export interface Guild {
 export interface MergedCharacter {
   name: string;
   info: Stat[];
-  // basic: {
-  //   stat_name: "이름" | "직업" | "길드" | "레벨" | "카르제";
-  //   stat_value: string;
-  // }[];
   stat: Stat[];
 }
-// export interface MergedCharacter {
-//   name: string;
-//   info: Stat[];
-//   basic: {
-//     stat_name: "이름" | "직업" | "길드" | "레벨" | "카르제";
-//     stat_value: string;
-//   }[];
-//   stat: Stat[];
-// }

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-import { useRankStore } from "@/app/_store/useRankStore";
+import { useRankStore } from "@/app/_store/rankStore";
 import { useDrag } from "@/app/_hooks/useDrag/useDrag";
 import Button from "@/app/_components/common/Button";
 import BottomArrow from "@/app/_components/common/BottomArrow";
