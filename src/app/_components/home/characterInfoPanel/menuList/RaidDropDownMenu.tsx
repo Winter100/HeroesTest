@@ -11,14 +11,11 @@ const RaidDropDownMenu = () => {
   const [activeRaid, setActiveRaid] = useState<string | null>(null);
 
   const setSelectBoss = useRaidStore((state) => state.setSelectBoss);
-  // const raidName = useRaidStore((state) => state.raidName);
-  // const setRaidName = useRaidStore((state) => state.setRaidName);
   const selectedBoss = useRaidStore((state) => state.selectedBoss);
   const resetRaid = useRaidStore((state) => state.resetRaid);
 
   const dropdownRef = useOutsideClick(() => {
     setView(false);
-    // setActiveRaid(null); // 메뉴 닫힐 때 서브 메뉴도 닫기
   });
 
   const raidOnclick = (raidName: string) => {
@@ -29,7 +26,6 @@ const RaidDropDownMenu = () => {
       return;
     }
     setActiveRaid(raidName);
-    // setActiveRaid((prev) => (prev === raidName ? null : raidName));
   };
 
   return (

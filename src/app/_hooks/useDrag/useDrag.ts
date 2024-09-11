@@ -1,6 +1,9 @@
 import { useRef } from "react";
 
-export const useDrag = (setDropItem: (start: number, end: number) => void) => {
+export const useDrag = (
+  setDropItem: (start: number, end: number) => void,
+  callback?: () => void,
+) => {
   const dragStartItem = useRef<number | null>(null);
   const dragEndItem = useRef<number | null>(null);
 
@@ -20,6 +23,9 @@ export const useDrag = (setDropItem: (start: number, end: number) => void) => {
     if (dragStartItem.current !== null && dragEndItem.current !== null) {
       if (dragStartItem.current === dragEndItem.current) return;
       setDropItem(dragStartItem.current, dragEndItem.current);
+      if (callback) {
+        callback();
+      }
     }
   };
 

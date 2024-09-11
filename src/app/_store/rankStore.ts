@@ -1,23 +1,28 @@
 import { create } from "zustand";
+import { toast } from "react-toastify";
+
 import { setLocalStoreageRankTitle } from "../_utils/localStorage";
 import { TitleType } from "../_type/RankTitleListType";
 import { initialTitleList } from "../_constant/rankTitleList";
-import { toast } from "react-toastify";
 
 type State = {
   rankTitleList: { stat_name: string; isView: boolean }[];
+  // selectedRankTitle: string | null;
+  selectedRankTitle: { titleName: string; ascending: boolean } | null;
 };
 
 type Action = {
   toggleView: (title: string) => void;
   setInitialTitleList: (titleList: TitleType[]) => void;
   setDropTitleList: (start: number, end: number) => void;
+  setSeletRankTitle: (title: string | null) => void;
 };
 
 // 로컬스토리지로 아래 내역 저장하기
 export const useRankStore = create<State & Action>((set) => {
   return {
-    rankTitleList: [] as TitleType[],
+    rankTitleList: [],
+    selectedRankTitle: null,
     toggleView: (title: string) =>
       set((state) => {
         if (title === "이름") {
@@ -51,5 +56,21 @@ export const useRankStore = create<State & Action>((set) => {
 
         return { rankTitleList: updatedRankTitleList };
       }),
+    setSeletRankTitle: (title: string | null) => {
+      set((state) => {
+        if (title === null) {
+          return {
+            selectedRankTitle: null,
+          };
+        }
+        const ascending =
+          state.selectedRankTitle?.titleName === title
+            ? !state.selectedRankTitle?.ascending
+            : false;
+        return {
+          selectedRankTitle: { titleName: title, ascending: ascending },
+        };
+      });
+    },
   };
 });

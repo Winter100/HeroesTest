@@ -1,6 +1,6 @@
 import { MonstersType } from "@/app/_constant/raidList";
 import { limitCalculator } from "../utils/limitCalculator";
-import { useRankStore } from "@/app/_store/useRankStore";
+import { useRankStore } from "@/app/_store/rankStore";
 import { useCharacterStore } from "@/app/_store/characterStore";
 
 const LimitStat = (props: {

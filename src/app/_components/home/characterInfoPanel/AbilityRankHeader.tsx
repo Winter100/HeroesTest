@@ -1,9 +1,8 @@
 import Row from "../../layout/Row";
-import RaidDropDownMenu from "./menuList/RaidDropDownMenu";
+import UserSearch from "./UserSearch";
 import ResetBtn from "./menuList/ResetBtn";
 import StatDropDownMenu from "./menuList/StatDropDownMenu";
-
-import UserSearch from "./UserSearch";
+import RaidDropDownMenu from "./menuList/RaidDropDownMenu";
 
 const AbilityRankHeader = () => {
   return (
