@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { CiFilter } from "react-icons/ci";
 
 import { useRankStore } from "@/app/_store/rankStore";
 import { useDrag } from "@/app/_hooks/useDrag/useDrag";
@@ -14,21 +15,22 @@ const StatDropDownMenu = () => {
   const setDropTitleList = useRankStore((state) => state.setDropTitleList);
   const { dragEnd, dragEnter, dragOver, dragStart } = useDrag(setDropTitleList);
 
-  const dropdownRef = useOutsideClick(() => {
+  const outSideRef = useOutsideClick(() => {
     setView(false);
   });
 
   return (
-    <div className="inline-block h-full w-24" ref={dropdownRef}>
+    <div className="inline-block h-full w-20" ref={outSideRef}>
       <Button
         onClick={() => setView((pre) => !pre)}
-        className="flex h-full w-full items-center justify-center"
+        className="flex h-full w-full items-center justify-center gap-1"
       >
-        <span>스텟 추가</span>
+        <CiFilter className="text-lg" />
+        <span>필터</span>
         <BottomArrow />
       </Button>
       <div
-        className={`absolute z-10 mt-1 flex w-24 flex-col rounded-lg bg-black transition-all duration-300 ease-in-out ${view ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-[10px] opacity-0"} `}
+        className={`absolute z-10 mt-1 flex w-20 flex-col rounded-lg bg-black transition-all duration-300 ease-in-out ${view ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-[10px] opacity-0"} `}
       >
         {rankTitleList?.map((t, i) => (
           <button

@@ -5,7 +5,7 @@ interface ButtonProps extends ComponentProps<"button"> {}
 const Button = ({ children, className = "", ...props }: ButtonProps) => {
   return (
     <button
-      className={`rounded-lg border-none bg-black text-white hover:text-blue-300 ${className}`}
+      className={`rounded-lg border text-black transition ease-in-out hover:border-black hover:bg-gray-200 hover:opacity-80 ${className}`}
       {...props}
     >
       {children}
