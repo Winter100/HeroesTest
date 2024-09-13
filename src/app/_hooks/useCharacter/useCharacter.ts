@@ -8,7 +8,7 @@ import { useCharacterStore } from "@/app/_store/characterStore";
 import { getOcid } from "@/app/_services/getOcid";
 import { getBasic } from "@/app/_services/getBasic";
 import { getStats } from "@/app/_services/getStats";
-// import { getGuild } from "@/app/_services/getGuild";
+import { getGuild } from "@/app/_services/getGuild";
 import { addWaitingRoomCharacterInfo } from "@/app/_utils/localStorage";
 import { useRankStore } from "@/app/_store/rankStore";
 
@@ -24,10 +24,10 @@ export const useCharacter = () => {
 
       try {
         const ocid = await getOcid(characterName);
-        const [basic, stat] = await Promise.all([
+        const [basic, stat, guild] = await Promise.all([
           getBasic(ocid),
           getStats(ocid),
-          // getGuild(ocid),
+          getGuild(ocid),
         ]);
 
         const mergedAtkStats = mergeAtk(stat);
@@ -35,8 +35,8 @@ export const useCharacter = () => {
         const mergedChrarcterData = mergeCharacterData(
           basic,
           translatedStats,
+          guild,
           characterName,
-          // guild,
         );
 
         addWaitingRoomCharacterInfo(mergedChrarcterData);

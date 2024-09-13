@@ -1,9 +1,6 @@
 import { create } from "zustand";
 import { MergedCharacter } from "../_type/characterType";
-import {
-  removeWatingRoomCharactersInfo,
-  setWaitingRoomCharactersInfo,
-} from "../_utils/localStorage";
+import { setWaitingRoomCharactersInfo } from "../_utils/localStorage";
 import { sortCharacters } from "../_utils/sortCharacters";
 
 type State = {
@@ -22,7 +19,7 @@ type Action = {
   setDropCharacterList: (start: number, end: number) => void;
   setSortCharacterList: (title: string, ascending: boolean) => void;
   selectedHandler: (name: string) => void;
-  reset: () => void;
+  reset: (nameList: string[], callback: () => void) => void;
 };
 
 export const useCharacterStore = create<State & Action>((set) => {
@@ -100,10 +97,15 @@ export const useCharacterStore = create<State & Action>((set) => {
       });
     },
 
-    reset: () => {
-      set(() => {
-        removeWatingRoomCharactersInfo();
-        return { characters: [] as MergedCharacter[] };
+    reset: (nameList: string[], cllaback: () => void) => {
+      set((state) => {
+        const characters = [...state.characters];
+        const newCharacters = characters.filter(
+          (c) => !nameList?.includes(c.name),
+        );
+        setWaitingRoomCharactersInfo(newCharacters);
+        cllaback();
+        return { characters: newCharacters as MergedCharacter[] };
       });
     },
   };

@@ -24,7 +24,12 @@ export const filterCharacters = (
           return indexA - indexB;
         });
 
-      return [{ name: filterdInfo[0]?.stat_value, info: filterdInfo }];
+      return [
+        {
+          name: filterdInfo.find((c) => c.stat_name === "이름")?.stat_value,
+          info: filterdInfo,
+        },
+      ];
     })
     .flat();
   return filterdData;

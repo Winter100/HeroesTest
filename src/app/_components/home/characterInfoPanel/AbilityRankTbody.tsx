@@ -12,6 +12,8 @@ import { LOCALSTORAGE_KEY } from "@/app/_constant/localstorage";
 import { MergedCharacter } from "@/app/_type/characterType";
 import { useRaidStore } from "@/app/_store/raidStore";
 import LimitStat from "./stat/LimitStat";
+import CheckBox from "../../common/CheckBox";
+import { useCheckStore } from "@/app/_store/checkStore";
 
 const AbilityRankTbody = () => {
   const characters = useCharacterStore((state) => state.characters);
@@ -37,6 +39,9 @@ const AbilityRankTbody = () => {
 
   const selectedBoss = useRaidStore((state) => state.selectedBoss);
 
+  const checkedList = useCheckStore((state) => state.checkedList);
+  const setChecked = useCheckStore((state) => state.setChecked);
+
   useEffect(() => {
     const waitingList =
       getLocalStorageItems<MergedCharacter[]>(LOCALSTORAGE_KEY.waiting) ?? [];
@@ -44,21 +49,29 @@ const AbilityRankTbody = () => {
   }, [addCharacter]);
 
   return (
-    <tbody className="grid h-full w-full grid-rows-8 rounded-lg bg-zinc-800 hover:cursor-pointer">
+    <tbody className="grid h-full w-full grid-rows-8 rounded-lg bg-zinc-800">
       {filteredCharacters.map((c, i) => (
         <tr
           key={uuidv4()}
           onClick={() => {
-            const name = c?.info?.find((s) => s?.stat_name === "이름");
-            selectedHandler(name?.stat_value ?? "");
+            const name = c?.info?.find(
+              (s) => s?.stat_name === "이름",
+            )?.stat_value;
+            selectedHandler(name ?? "");
           }}
           draggable
           onDragStart={(e) => dragStart(e, i)}
           onDragEnd={dragEnd}
           onDragOver={dragOver}
           onDragEnter={() => dragEnter(i)}
-          className={`flex ${c?.info ? "border-b" : ""} ${selectedCharacter?.name === c?.info?.find((s) => s.stat_name === "이름")?.stat_value ? "text-blue-300" : ""} w-full items-center justify-center rounded-lg hover:bg-zinc-600`}
+          className={`flex ${selectedCharacter?.name === c?.name ? "text-blue-300" : ""} w-full items-center justify-center rounded-lg hover:cursor-pointer hover:bg-zinc-600`}
         >
+          {/* 체크박스 */}
+          <td className="flex h-full w-12 items-center justify-center">
+            <div onClick={() => setChecked(c?.name ?? "")}>
+              <CheckBox checked={checkedList.includes(c?.name ?? "")} />
+            </div>
+          </td>
           {c?.info?.map((i) => (
             <td
               className="flex h-full flex-1 items-center justify-center"
@@ -68,10 +81,7 @@ const AbilityRankTbody = () => {
                 <span>{i?.stat_value}</span>
                 {selectedBoss && (
                   <LimitStat
-                    characterName={
-                      c?.info?.find((a) => a?.stat_name === "이름")
-                        ?.stat_value ?? ""
-                    }
+                    characterName={c?.name ?? ""}
                     selectedBoss={selectedBoss}
                     {...i}
                   />

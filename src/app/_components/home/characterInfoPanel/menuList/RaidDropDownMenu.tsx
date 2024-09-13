@@ -14,7 +14,7 @@ const RaidDropDownMenu = () => {
   const selectedBoss = useRaidStore((state) => state.selectedBoss);
   const resetRaid = useRaidStore((state) => state.resetRaid);
 
-  const dropdownRef = useOutsideClick(() => {
+  const outSideRef = useOutsideClick(() => {
     setView(false);
   });
 
@@ -29,12 +29,12 @@ const RaidDropDownMenu = () => {
   };
 
   return (
-    <div className="inline-block h-full w-32" ref={dropdownRef}>
+    <div className="inline-block h-full w-32" ref={outSideRef}>
       <Button
         onClick={() => setView((pre) => !pre)}
         className="flex h-full w-full items-center justify-center"
       >
-        <span>{selectedBoss?.name || "상한 확인"}</span>
+        <span>{selectedBoss?.name || "상한"}</span>
         <BottomArrow />
       </Button>
       <div
