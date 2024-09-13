@@ -43,7 +43,11 @@ const UserSearch = () => {
     <Row
       className={`${isFocused ? "border-blue-300" : ""} ${loading ? "bg-gray-200 opacity-60" : ""} outline-blue-300" h-8 w-60 gap-1 rounded-lg border-2 text-sm text-black shadow-sm`}
     >
-      <form onSubmit={onClickHandler} className="flex h-full w-full pl-2">
+      <form
+        id="search"
+        onSubmit={onClickHandler}
+        className="flex h-full w-full pl-2"
+      >
         <Input
           spellCheck="false"
           ref={inputRef}
