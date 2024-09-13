@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiFilter } from "react-icons/ci";
 
 import { useRankStore } from "@/app/_store/rankStore";
@@ -7,6 +7,8 @@ import { useDrag } from "@/app/_hooks/useDrag/useDrag";
 import Button from "@/app/_components/common/Button";
 import BottomArrow from "@/app/_components/common/BottomArrow";
 import { useOutsideClick } from "@/app/_hooks/useOutsideClick/useOutsideClick";
+import { getLocalStorageRankTitle } from "@/app/_utils/localStorage";
+import { TitleType } from "@/app/_type/RankTitleListType";
 
 const StatDropDownMenu = () => {
   const [view, setView] = useState(false);
@@ -15,9 +17,18 @@ const StatDropDownMenu = () => {
   const setDropTitleList = useRankStore((state) => state.setDropTitleList);
   const { dragEnd, dragEnter, dragOver, dragStart } = useDrag(setDropTitleList);
 
+  const setInitialTitleList = useRankStore(
+    (state) => state.setInitialTitleList,
+  );
+
   const outSideRef = useOutsideClick(() => {
     setView(false);
   });
+
+  useEffect(() => {
+    const titleList = getLocalStorageRankTitle() ?? ([] as TitleType[]);
+    setInitialTitleList(titleList);
+  }, [setInitialTitleList]);
 
   return (
     <div className="inline-block h-full w-20" ref={outSideRef}>

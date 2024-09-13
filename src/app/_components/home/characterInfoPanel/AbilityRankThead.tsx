@@ -4,8 +4,6 @@ import { useEffect } from "react";
 
 import { useDrag } from "@/app/_hooks/useDrag/useDrag";
 import { useRankStore } from "@/app/_store/rankStore";
-import { TitleType } from "@/app/_type/RankTitleListType";
-import { getLocalStorageRankTitle } from "@/app/_utils/localStorage";
 import { useCharacterStore } from "@/app/_store/characterStore";
 import { useCheckStore } from "@/app/_store/checkStore";
 import CheckBox from "../../common/CheckBox";
@@ -16,9 +14,6 @@ const AbilityRankThead = () => {
     (state) => state.setSortCharacterList,
   );
   const selectedRankTitle = useRankStore((state) => state.selectedRankTitle);
-  const setInitialTitleList = useRankStore(
-    (state) => state.setInitialTitleList,
-  );
   const setDropTitleList = useRankStore((state) => state.setDropTitleList);
   const toggleView = useRankStore((state) => state.toggleView);
 
@@ -45,11 +40,6 @@ const AbilityRankThead = () => {
       );
     }
   }, [setSortCharacterList, selectedRankTitle]);
-
-  useEffect(() => {
-    const titleList = getLocalStorageRankTitle() as TitleType[];
-    setInitialTitleList(titleList);
-  }, [setInitialTitleList]);
 
   const characters = useCharacterStore((state) => state.characters);
   const characterLength = characters.length;
