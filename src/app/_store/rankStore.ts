@@ -7,7 +7,6 @@ import { initialTitleList } from "../_constant/rankTitleList";
 
 type State = {
   rankTitleList: { stat_name: string; isView: boolean }[];
-  // selectedRankTitle: string | null;
   selectedRankTitle: { titleName: string; ascending: boolean } | null;
 };
 
@@ -39,9 +38,22 @@ export const useRankStore = create<State & Action>((set) => {
       }),
     setInitialTitleList: (titleList) => {
       set(() => {
-        if (titleList?.some((i) => i.isView === true)) {
-          return { rankTitleList: titleList };
-        } else {
+        try {
+          const initialNames = initialTitleList.map((item) => item?.stat_name);
+          const titleListNames = titleList.map((item) => item?.stat_name);
+
+          const isMismatch =
+            initialNames.length !== titleListNames.length ||
+            !initialNames.every((name) => titleListNames.includes(name));
+
+          if (isMismatch) {
+            setLocalStoreageRankTitle("RankTitleList", initialTitleList);
+            return { rankTitleList: initialTitleList };
+          } else {
+            setLocalStoreageRankTitle("RankTitleList", titleList);
+            return { rankTitleList: titleList };
+          }
+        } catch (e) {
           return { rankTitleList: initialTitleList };
         }
       });
