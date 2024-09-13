@@ -1,12 +1,12 @@
 "use client";
 
-import { FormEvent, useRef } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { toast } from "react-toastify";
+import { GoSearch } from "react-icons/go";
 
 import Row from "../../layout/Row";
 import Input from "../../common/Input";
 import Loading from "../../common/Loading";
-import Button from "../../common/Button";
 import { useCharacterStore } from "@/app/_store/characterStore";
 import { useCharacter } from "@/app/_hooks/useCharacter/useCharacter";
 
@@ -14,6 +14,8 @@ const UserSearch = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { handleCharacterInfo, loading } = useCharacter();
   const characters = useCharacterStore((state) => state.characters);
+
+  const [isFocused, setIsFocused] = useState(false);
 
   const onClickHandler = async (e: FormEvent) => {
     e.preventDefault();
@@ -32,26 +34,36 @@ const UserSearch = () => {
           toastId: "characterName",
         });
       }
+      inputRef.current.focus();
       inputRef.current.value = "";
     }
   };
 
   return (
-    <Row className="justify-center gap-1 text-black">
-      <form className="flex gap-1">
+    <Row
+      className={`${isFocused ? "border-blue-300" : ""} ${loading ? "bg-gray-200 opacity-60" : ""} outline-blue-300" h-8 w-60 gap-1 rounded-lg border-2 text-sm text-black shadow-sm`}
+    >
+      <form
+        id="search"
+        onSubmit={onClickHandler}
+        className="flex h-full w-full pl-2"
+      >
         <Input
+          spellCheck="false"
           ref={inputRef}
-          className="w-60 text-xs"
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          className="h-full w-full flex-1 border-none bg-inherit text-xs outline-none"
           placeholder="캐릭터 이름을 입력해주세요."
-        />
-        <Button
-          type="submit"
           disabled={loading}
-          className={`h-full w-16 text-xs ${loading ? "opacity-80" : ""}`}
-          onClick={onClickHandler}
+        />
+        <button
+          disabled={loading}
+          type="submit"
+          className={`flex h-full w-6 items-center justify-center`}
         >
-          {!loading ? <span>검색</span> : <Loading />}
-        </Button>
+          {!loading ? <GoSearch /> : <Loading />}
+        </button>
       </form>
     </Row>
   );

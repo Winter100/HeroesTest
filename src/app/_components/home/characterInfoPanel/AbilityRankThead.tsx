@@ -1,11 +1,14 @@
 "use client";
 
 import { useEffect } from "react";
+
 import { useDrag } from "@/app/_hooks/useDrag/useDrag";
 import { useRankStore } from "@/app/_store/rankStore";
 import { TitleType } from "@/app/_type/RankTitleListType";
 import { getLocalStorageRankTitle } from "@/app/_utils/localStorage";
 import { useCharacterStore } from "@/app/_store/characterStore";
+import { useCheckStore } from "@/app/_store/checkStore";
+import CheckBox from "../../common/CheckBox";
 
 const AbilityRankThead = () => {
   const rankTitleList = useRankStore((state) => state.rankTitleList);
@@ -48,14 +51,37 @@ const AbilityRankThead = () => {
     setInitialTitleList(titleList);
   }, [setInitialTitleList]);
 
+  const characters = useCharacterStore((state) => state.characters);
+  const characterLength = characters.length;
+  const userName = characters.map((c) => c.name);
+  const allChecked = useCheckStore((state) => state.checkedList.length);
+  const setAllChecked = useCheckStore((state) => state.setAllChecked);
+
+  const onAllCheck = () => {
+    setAllChecked(userName);
+  };
+
+  const checked =
+    characterLength === allChecked && characterLength >= 1 && allChecked >= 1;
+
   return (
     <thead className="min-h-8 w-full items-center justify-center rounded-lg bg-zinc-800">
-      <tr className="relative flex h-full w-full items-center justify-center">
+      <tr className="relative flex h-full w-full items-center justify-center rounded-lg">
+        {rankTitleList[0] && (
+          <th className="flex h-full w-12 items-center justify-center text-xl">
+            <div
+              onClick={onAllCheck}
+              className="flex items-center justify-center"
+            >
+              <CheckBox checked={checked} />
+            </div>
+          </th>
+        )}
         {rankTitleList?.map(
           (t, i) =>
             t?.isView && (
               <th
-                className={`flex h-full w-full items-center justify-center rounded-lg hover:cursor-pointer`}
+                className={`flex h-full w-full flex-1 items-center justify-center rounded-lg hover:cursor-pointer`}
                 key={t?.stat_name}
                 onClick={() => sort(t.stat_name)}
                 draggable
@@ -66,7 +92,7 @@ const AbilityRankThead = () => {
               >
                 <div className="relative h-full w-full">
                   <span
-                    className={`${selectedRankTitle?.titleName === t.stat_name ? (selectedRankTitle.ascending === false ? "text-green-300" : "text-red-300") : "text-white"} flex h-full w-full items-center justify-center rounded-lg hover:bg-zinc-600`}
+                    className={` ${selectedRankTitle?.titleName === t.stat_name ? (selectedRankTitle.ascending === false ? "text-green-300" : "text-red-300") : "text-white"} flex h-full w-full items-center justify-center rounded-lg hover:bg-zinc-600`}
                   >
                     {t?.stat_name}
                   </span>
